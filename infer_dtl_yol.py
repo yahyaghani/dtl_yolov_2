@@ -1,21 +1,19 @@
 import subprocess
 import os
 import re
+from core.config.load_config import Config
 
 # image_path = '/home/taymur/app_folder/backend_upd/static/uploads/arabic_celebrityframe_33.jpg'
 # image_path = '/home/taymur/app_folder/backend_upd/chronos/dtl_yolov_2/impact.jpg'
-person_model_path = '/home/taymur/app_folder/backend_upd/chronos/dtl_yolov_2/grip_yolov5s.pt'
-club_model_path = '/home/taymur/app_folder/backend_upd/chronos/dtl_yolov_2/club_600_best.pt'
+person_model_path = Config.get_path('chronos/dtl_yolov_2/grip_yolov5s.pt')
+club_model_path = Config.get_path('chronos/dtl_yolov_2/club_600_best.pt')
 
 def detect(image_path, model_path):
-    # result = subprocess.run(``
-    #     ['python', '/home/taymur/app_folder/backend_upd/chronos/dtl_yolov_2/detect.py', '--weights', model_path, '--source', image_path,'--classes',' 0'],
-    #     stdout=subprocess.PIPE,
-    #     stderr=subprocess.PIPE,
-    #     text=True
-    # )
+    python_executable = Config.PYTHON_EXECUTABLE
+    detect_script_path = Config.get_path('chronos/dtl_yolov_2/detect.py')
+
     result = subprocess.run(
-        ['/home/taymur/anaconda3/bin/python', '/home/taymur/app_folder/backend_upd/chronos/dtl_yolov_2/detect.py', '--weights', model_path, '--source', image_path, '--classes', '0'],
+        [python_executable, detect_script_path, '--weights', model_path, '--source', image_path, '--classes', '0'],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True

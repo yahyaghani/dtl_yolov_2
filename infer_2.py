@@ -3,9 +3,13 @@ import numpy as np
 import cv2
 from PIL import Image
 from models.yolo import Model  # Import the YOLOv5 model architecture
+from core.config.load_config import Config
 
 
-def load_model(model_path, model_config='/home/taymur/app_folder/backend_upd/chronos/dtl_yolov_2/models/yolov5s.yaml'):
+def load_model(model_path, model_config=None):
+    if model_config is None:
+        model_config = Config.get_path('chronos/dtl_yolov_2/models/yolov5s.yaml')
+    
     # Create model architecture with the correct number of classes
     model = Model(model_config)
 
@@ -50,14 +54,14 @@ def detect(image_path, model):
     return detections
 
 # Load models
-person_model_path = '/home/taymur/app_folder/backend_upd/chronos/dtl_yolov_2/grip_yolov5s.pt'
-club_model_path = '/home/taymur/app_folder/backend_upd/chronos/dtl_yolov_2/club_f_best.pt'
+person_model_path = Config.get_path('chronos/dtl_yolov_2/grip_yolov5s.pt')
+club_model_path = Config.get_path('chronos/dtl_yolov_2/club_f_best.pt')
 
 person_model = load_model(person_model_path)
 club_model = load_model(club_model_path)
 
 # Example usage
-image_path = '/home/taymur/app_folder/backend_upd/chronos/dtl_yolov_2/arabic_celebrityframe_33.jpg'
+image_path = Config.get_path('chronos/dtl_yolov_2/arabic_celebrityframe_33.jpg')
 detections = detect(image_path, club_model_path)
 print('detections',detections)
 # ... process detections as needed
